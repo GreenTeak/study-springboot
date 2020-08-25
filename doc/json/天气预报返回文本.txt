@@ -1,0 +1,62 @@
+postman发送请求：http://wthrcdn.etouch.cn/weather_mini?city=西安
+
+返回：
+{
+    "data": {
+        "city": "西安",
+        "forecast": [
+            {
+                "date": "28日星期四",
+                "fengli": "<![CDATA[3-4级]]>",
+                "fengxiang": "东北风",
+                "high": "高温 6℃",
+                "low": "低温 0℃",
+                "type": "多云"
+            },
+            {
+                "date": "29日星期五",
+                "fengli": "<![CDATA[<3级]]>",
+                "fengxiang": "东北风",
+                "high": "高温 4℃",
+                "low": "低温 0℃",
+                "type": "小雨"
+            },
+            {
+                "date": "30日星期六",
+                "fengli": "<![CDATA[<3级]]>",
+                "fengxiang": "西南风",
+                "high": "高温 7℃",
+                "low": "低温 -1℃",
+                "type": "阴"
+            },
+            {
+                "date": "1日星期天",
+                "fengli": "<![CDATA[<3级]]>",
+                "fengxiang": "西风",
+                "high": "高温 8℃",
+                "low": "低温 -4℃",
+                "type": "多云"
+            },
+            {
+                "date": "2日星期一",
+                "fengli": "<![CDATA[<3级]]>",
+                "fengxiang": "东北风",
+                "high": "高温 8℃",
+                "low": "低温 -4℃",
+                "type": "晴"
+            }
+        ],
+        "ganmao": "天气较凉，较易发生感冒，请适当增加衣服。体质较弱的朋友尤其应该注意防护。",
+        "wendu": "7",
+        "yesterday": {
+            "date": "27日星期三",
+            "fl": "<![CDATA[3-4级]]>",
+            "fx": "东北风",
+            "high": "高温 7℃",
+            "low": "低温 0℃",
+            "type": "小雨"
+        }
+    },
+    "desc": "OK",
+    "status": 1000
+}

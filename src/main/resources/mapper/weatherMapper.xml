@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.business.weather.mapper.WeatherMapper">
+
+    <resultMap id="weatherResultMap" type="com.study.business.weather.entity.Weather">
+        <id property="weatherId" column="weather_id"/>
+        <result property="city" column="city"/>
+        <result property="createDate" column="create_date"/>
+        <result property="ganmao" column="ganmao"/>
+        <result property="wendu" column="wendu"/>
+    </resultMap>
+
+    <!--查询-->
+    <resultMap id="weatherModelMap" type="com.study.business.weather.model.WeatherModel">
+        <id property="weatherId" column="weather_id"/>
+        <result property="city" column="city"/>
+        <result property="createDate" column="create_date"/>
+        <result property="ganmao" column="ganmao"/>
+        <result property="wendu" column="wendu"/>
+        <collection property="weatherDetails" ofType="com.study.business.weather.entity.WeatherDetail">
+            <result property="date" column="date"/>
+            <result property="fengli" column="fengli"/>
+            <result property="fengxiang" column="fengxiang"/>
+            <result property="high" column="high"/>
+            <result property="low" column="low"/>
+            <result property="type" column="type"/>
+            <result property="weatherId" column="weather_id"/>
+        </collection>
+    </resultMap>
+
+    <insert id="addWeather" parameterType="com.study.business.weather.entity.Weather">
+        insert into weather
+        (weather_id,city,create_date,ganmao,wendu)
+        values
+        (#{weatherId},#{city},#{createDate},#{ganmao},#{wendu})
+    </insert>
+
+    <!--用了resultMap就不能用resultType-->
+    <select id="getWeatherModels" resultMap="weatherModelMap">
+        SELECT
+        a.weather_id,
+        a.city,
+        a.create_date,
+        a.ganmao,
+        a.wendu,
+        d.type,
+        d.low,
+        d.high,
+        d.date ,
+        d.weather_detail_id,
+        d.fengxiang,
+        d.fengli
+        FROM
+        weather a
+        LEFT JOIN weather_detail d ON a.weather_id = d.weather_id
+        order by a.create_date desc,a.city asc
+    </select>
+
+    <delete id="deleteByWeatherId" parameterType="java.lang.Long">
+        delete from weather where weather_id in
+        <foreach collection="array" item="weatherId" open="(" separator="," close=")">
+            #{weatherId}
+        </foreach>
+    </delete>
+
+    <!--
+        xml特殊符号转义写法
+            &lt; <
+            &gt; >
+            &lt;&gt; <>
+            &amp; &
+            &apos; '
+            &quot; "
+    -->
+    <select id="getWeather" parameterType="java.util.Date" resultMap="weatherResultMap">
+        SELECT
+        a.weather_id,
+        a.city,
+        a.create_date,
+        a.ganmao,
+        a.wendu
+        FROM
+        weather a where date(create_date) &lt; #{date}
+    </select>
+
+</mapper>

@@ -1,0 +1,157 @@
+
+    * 需要安装mysql/postgresSql数据库
+    * 需要安装elasticsearch
+
+
+	一 启动服务
+	http://127.0.0.1:8815/user/userList	
+
+	二 传参方式
+		springboot提供的传参方式（springmvc原有的）：
+			
+			http://127.0.0.1:8815/user/userList
+
+			URL拼接参数
+			http://127.0.0.1:8815/user/deleteUser/{id}
+
+			接收查询参数
+			http://127.0.0.1:8815/user/addUser?id=3&age=29&userName=张三封
+
+			json参数
+			http://127.0.0.1:8815/user/addUser
+				{
+					id:5,
+					age:88,
+					userName:"詹姆斯"
+				}
+
+	三 监听：
+	    1 ServletContextListener接口
+		UdpListener.contextInitialized():	当Servlet容器启动Web应用时调用该方法。在调用完该方法之后，容器再对Filter初始化，并且对那些在Web应用启动时就需要被初始化的Servlet进行初始化。
+		UdpListener.contextDestroyed():		当Servlet容器终止Web应用时调用该方法。在调用该方法之前，容器会先销毁所有的Servlet和Filter过滤器。
+
+		2 ApplicationListener （补充 2019-11-14）
+		    a 定义监听类 ApplicationEventListener.java
+		    b 监听注入容器，增加监听
+		        方式一：在配置文件中增加：context.listener.classes: com.study.listener.ApplicationEventListener
+		        方式二：在启动类main函数中增加监听
+		        方式三：直接@Component注入bean，这种方式只能监听刷新和启动完成
+        3 对比
+            ServletContextListener  依赖于sevlet容器，需要配置web.xml，有两个方法，两个方法对应着sevlet的生命周期
+                                    contextInitialized： 容器初始化sevlet时调用
+                                    contextDestroyed：   sevlet销毁时调用
+
+            ApplicationListener     依赖于spring框架，在spring启动时调用
+                                    onApplicationEvent： 初始化配置文件
+
+            相同点：两种初始化方法都没法直接使用@Autowired来注入sevice进行数据库操作，于是我只好另辟蹊径，从spring的beanfactory中取得serice进行DB访问
+
+	四 在项目启动后执行的功能：CommandLineRunner接口：
+		1 SpringBoot提供的一种简单的实现方案就是添加一个model并实现CommandLineRunner接口， 实现功能的代码放在实现的run方法中
+        2 多个用注解@Order(int i)进行排序，i越小越先执行
+
+	五 线程池的用法配合的两个接口：
+		InitializingBean：	允许一个bean在它的所有必须属性被BeanFactory设置后，来执行初始化的工作，	该接口中只有一个方法，afterPropertiesSet
+		DisposableBean： 	允许在容器销毁该bean的时候获得一次回调，				                该接口也只规定了一个方法：destroy
+
+	六 springboot多环境 配置文件：
+		application.yml		    全局配置：系统加载哪个环境的配置 spring.profiles.active=dev,test,prod
+		application-dev.yml	    开发环境
+		application-test.yml	测试环境
+		application-prod.yml	生产环境
+
+	七 工程集成了mysql和postgresql两种数据库，mybatis对两种数据库都支持
+	    1 mysql 在pom.xml中增加mysql的依赖，对加载的配置文件进行数据源配置，比如：dev和prod
+	    2 postgersql 在pom.xml中增加pg的依赖，对加载的配置文件进行数据源配置，比如：test
+
+
+	八 Aop切面输出
+	    1 增加pom.xml中的Aop依赖
+	    2 增加类LogAop.java
+	    3 测试，调用service层的所有方法，都会执行切面
+
+
+	九 日志路径
+	    方式一: 在配置文件中加入
+	        a 日志在当前工程的路径下 logging.file: log/study-springboot.log
+	        b 日志在绝对路径下 logging.file: e:/study-springboot.log
+
+        方式二: 增加resources/logback.xml配置文件
+
+	十 事务（以转账交易为例：转账实例，A用户转账给B用户xx元）
+	    1 a 增加文件 Account.java
+	                AccountMapper.java
+	                AccountService.java
+	                AccountServiceImpl.java
+	                AccountController.java
+	                AccountMapper.xml
+	      b 增加表  account
+
+	    2 测试
+	        写好转账的交易后，启动工程，浏览器中执行：http://127.0.0.1:8815/account/transfer
+	        结果：A减少200，B增加200
+
+	        在service层增加异常代码 int zero = 1/0;重新启动执行
+	        结果：A减少200，B未增加
+
+	        在service层加入注解@Transactional;重新启动执行
+	        结果：A未减少，B未增加
+
+	    3 遇到的问题
+	        当所写的aop代码没有注释掉的时候，事务不生效；注释掉aop的代码中的环绕通知方法后，事务生效
+
+	十一 利用jpa，程序启动自动创建表
+	    1 a 增加Student.java实体类       注意：实体类上增加@Entity注解 主键增加@Id @GeneratedValue
+	      b 在pom.xml中增加jpa依赖
+	      c 在配置文件中增加jpa的配置信息jpa.hibernate.ddl-auto: create和jpa.show-sql: true（由于已经存在mysql数据源信息，不需要再配）
+
+        2 测试：重新启动服务，看看student表是否建好
+
+    十二 定时任务：
+        1  只有没有参数的方法才能用@Schedule注解调度
+        2   @Scheduled(fixedDelay=5000) 延迟1秒执行
+            @Scheduled(fixedRate=5000)  每5秒执行一次
+            @Scheduled(initialDelay=1000, fixedRate=5000)   先延迟1秒钟，然后每5秒执行一次
+            @Scheduled(cron="*/5 * * * * MON-FRI")  工作日执行
+
+    十三 集成redis
+        1 加入两个依赖在pom.xml中
+        2 在配置文件中加入redis的配置参数
+        3 在MapController中注入操作redis的StringRedisTemplate类
+
+    十四 过滤器
+        springboot使用过滤器的两种方式：
+        方式一： 使用原生servlet注解定义Filter
+            1 定义过滤器MyfilterOne.java
+            2 在Config中注册过滤器
+            3 测试 调用任意接口（例如：http://127.0.0.1:8815/weather/weatherList）会触发过滤器
+        方式二： 使用spring boot提供的FilterRegistrationBean注册Filter
+            1 利用注解@WebFilter定义过滤器MyfilterTwo.java(此方式暂时未调通)
+        两种方式的本质都是一样的，都是去FilterRegistrationBean注册自定义Filter
+
+    十五 拦截器
+        1 定义拦截器
+        2 配置拦截器：在Config.java中实现接口WebMvcConfigurerde的addInterceptors方法
+        3 测试 调用任意接口（例如：http://127.0.0.1:8815/weather/weatherList）会触发拦截器
+
+    十六 集成mybaits时，mapper的注入方式有两种
+        方式一：    在xxx-mapper.java文件中加入@Mapper注解
+        方式二：    在配置类中加入@MapperScan("com.study.**.mapper")   ---指定要扫描的Mapper类的包的路径
+
+    十七 集成kafka
+        1 增加依赖:   pom.xml中增加kafka依赖
+        2 配置文件中增加配置信息：
+        3 启动类增加监听代码：
+
+        测试：使用kafka自带的命令往topic发一条消息试试能否收到：./kafka-console-producer.sh --topic junbaor-test --broker-list 127.0.0.1:9092
+
+
+
+
+
+
+
+
+
+    *****
+    jpa学习：https://blog.csdn.net/weixin_43683536/article/details/89740687

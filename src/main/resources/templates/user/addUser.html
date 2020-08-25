@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${userModel.title}"></title>
+</head>
+<body>
+<div th:replace="~{user/fragments/userHeader :: userHeader}">...</div>
+<form action="/user/add" method="post" th:object="${userModel.user}">
+    ID
+    <input type="text" name="id" th:value="*{id}">
+    名字:
+    <input type="text" name="userName" th:value="*{userName}">
+    年龄:
+    <input type="text" name="age" th:value="*{age}">
+    密码:
+    <input type="text" name="password" th:value="*{password}">
+    <br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

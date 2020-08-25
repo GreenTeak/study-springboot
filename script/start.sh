@@ -1,0 +1,1 @@
+nohup java -Xdebug -Xrunjdwp:server=y,transport=dt_socket,address=8989,suspend=n -jar study-springboot-0.0.1-SNAPSHOT.jar -Dspring.config.location=application.yml &

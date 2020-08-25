@@ -1,0 +1,4 @@
+## 系统加载哪个环境的配置，此处加载dev环境
+spring:
+  profiles:
+    active: dev

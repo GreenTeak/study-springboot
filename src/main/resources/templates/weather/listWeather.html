@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <title th:text="${weatherModel.title}"></title>
+    <link rel="stylesheet" type="text/css" th:href="@{../../static/css/bootstrap.min.css}"/>
+</head>
+<body>
+<!--<div th:replace="~{fragments/weatherHeader :: weatherHeader}">...</div>-->
+<div th:replace="~{weather/fragments/weatherHeader :: weatherHeader}">...</div>
+
+<div th:text="${weatherModel.title}"></div>
+<div>
+    <a href="/weather/form">增加天气预报</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <a href="/weather/delete">删除30天之前的所有天气预报</a>
+</div>
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <td class="active">天气id</td>
+        <td class="success">城市名称</td>
+        <td class="warning">创建日期</td>
+        <td class="danger">温馨提示</td>
+        <td class="info">温度</td>
+        <td class="show"></td>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:if="${weatherModel} eq 0">
+        <div>${weatherModel} eq 0</div>
+    <tr th:each="weather : ${weatherModel.weatherList}">
+        <td th:text="${weather.weatherId}"></td>
+        <td th:text="${weather.city}"></td>
+        <td th:text="${weather.createDate}"></td>
+        <td th:text="${weather.ganmao}"></td>
+        <td th:text="${weather.wendu}"></td>
+        <td>
+            <a th:href="@{'/weather/weatherDetailList/'+${weather.weatherId}}"><input type="submit" value="查看城市天气明细"></a>
+        </td>
+    </tr>
+    </tbody>
+
+
+</table>
+    <a>上一页</a>&nbsp
+    <a>下一页</a>&nbsp
+    <a>最后一页</a>&nbsp
+</body>
+</html>

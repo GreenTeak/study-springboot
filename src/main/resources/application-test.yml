@@ -1,0 +1,67 @@
+server:
+  port: 8817
+
+spring:
+  datasource:
+    url: jdbc:postgresql://10.95.105.79:5432/study?useSSL=false
+    username: postgres
+    password: 123456
+    platform: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+
+  thymeleaf:
+    cache: false
+    encoding: utf-8
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+    check-template-location: true
+    servlet:
+      content-type: text/html
+
+  redis:
+    host: 127.0.0.1
+    port: 6380
+    timeout: 1000
+    password: 123456
+    jedis:
+      pool:
+        max-idle: 10
+        max-wait: 3
+        max-active: 10
+  kafka:
+    consumer:
+      group-id: junbaor-test-group
+      bootstrap-servers: 10.91.159.54:9092
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+udp:
+  port: 518
+
+file:
+  source: E:\test\source
+  target: E:\test\target
+
+# 日志相关配置(默认集成的有slf4j,Logback等)
+logging:
+  level:
+    root: INFO                    #默认的日志级别
+    com:
+      study:
+        mapper: DEBUG             # mapper 接口所在的包设置为 debug
+  file: log/study-springboot.log  #生成日志文件的位置 e:/study-springboot.log
+
+# 增加监听的第一种方式
+context:
+  listener:
+    classes: com.study.listener.ApplicationEventListener
+
+weather:
+  city: 西安,宝鸡,商洛,北京,上海,深圳,广州

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.business.weather.mapper.WeatherDetailMapper">
+
+    <resultMap id="weatherResultMap" type="com.study.business.weather.entity.WeatherDetail">
+        <id property="weatherDetailId" column="weather_detail_id"/>
+        <result property="date" column="date"/>
+        <result property="fengli" column="fengli"/>
+        <result property="fengxiang" column="fengxiang"/>
+        <result property="high" column="high"/>
+        <result property="low" column="low"/>
+        <result property="type" column="type"/>
+        <result property="weatherId" column="weather_id"/>
+    </resultMap>
+
+    <insert id="addWeatherDetail" parameterType="com.study.business.weather.entity.WeatherDetail">
+        insert into weather_detail
+        (date,fengli,fengxiang,high,low,type,weather_id,timestamp,week)
+        values
+        (#{date},#{fengli},#{fengxiang},#{high},#{low},#{type},#{weatherId},#{timestamp},#{week})
+    </insert>
+
+    <select id="getWeatherDeatils" resultMap="weatherResultMap" parameterType="java.lang.Long">
+        select weather_detail_id,date,fengli,fengxiang,high,low,type,weather_id from weather_detail where weather_id=#{weatherId}
+        order by timestamp
+    </select>
+
+    <delete id="deleteByWeatherId" parameterType="java.lang.Long">
+        delete from weather_detail where weather_id in
+        <foreach collection="array" item="weatherId" open="(" separator="," close=")">
+            #{weatherId}
+        </foreach>
+    </delete>
+
+</mapper>

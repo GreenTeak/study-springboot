@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${weatherModel.title}"></title>
+</head>
+<body>
+<!--<div th:replace="~{fragments/weatherHeader :: weatherHeader}">...</div>-->
+<div th:replace="~{weather/fragments/weatherHeader :: weatherHeader}">...</div>
+
+<form action="/weather/addWeather" method="post" th:object="${weatherModel.weather}">
+    城市名称:
+    <input type="text" name="city" th:value="*{city}">
+    <br>
+    <input type="submit" value="提交">
+</form>
+</body>
+</html>

@@ -1,0 +1,58 @@
+
+一 开放api
+    <1> 天气预报
+    通过百度天气查询接口
+    http://wthrcdn.etouch.cn/weather_mini?city=宝鸡
+
+    <2> 地图-百度
+    http://api.map.baidu.com/geocoder?location=28.696117043877,115.95845796638&output=json&key=F9da85afead8b6e9c4738e5e5b79eb97
+
+    <3> 手机归属地-淘宝网
+    http://tcc.taobao.com/cc/json/mobile_tel_segment.htm?tel=15902989848
+
+    <4> 省市地区列表
+    http://mat1.gtimg.com/weather/index2014/searchData_v2.js
+
+二 工程提供的接口：
+		1 用户功能：
+		用户登陆：
+		http://127.0.0.1:8815/user/loginWeb
+
+		进入用户管理首页面，可以进行删除和新增，查询
+		http://127.0.0.1:8815/user/userList
+		http://127.0.0.1:8815/user/add
+		http://127.0.0.1:8815/user/deleteUser/{id}
+
+		2 文件功能：
+		调用接口
+		http://127.0.0.1:8815/file/copy		可以将source路径下的文件剪切到target路径下
+
+		3 天气预报
+		http://127.0.0.1:8815/weather/put?city=西安   查询地区的天气预报，并切存入数据库中(get)
+		http://127.0.0.1:8815/weather/get             查询数据库中所有城市的天气情况(get)
+		http://127.0.0.1:8815/weather/delete?ids=1,2  根据天气预报的id删除天气预报和明细(delete)
+		http://127.0.0.1:8815/weather/care            将关心的城市的天气预报入库[关心的城市在配置文件中配置](get)
+
+		浏览器中显示：
+		http://127.0.0.1:8815/weather/weatherList                               查看数据流中的天气预报页面(get)
+		http://127.0.0.1:8815/weather/weatherDetailList/{weatherId}             查看天气预报明细页面(get)
+		http://127.0.0.1:8815/weather/addWeather                                根据城市名称增加天气预报(post)
+		http://127.0.0.1:8815/weather/delete                                    删除30天以前的天气预报和明细(get)
+
+
+        4 手机归属地
+        http://127.0.0.1:8815/tel/get/15902989848     查出手机号归属地
+
+        5 地图查询：
+        http://127.0.0.1:8815/map/get/28.696117,115.958458  根据经纬度查询
+
+        6 省市数据
+        http://127.0.0.1:8815/map/read              将redis数据读出来导入数据库city表中
+            * 由于地区列表数据压缩成字符串后长度过长
+            第一步：利用开放接口http://mat1.gtimg.com/weather/index2014/searchData_v2.js查出地区列表，转化为json格式，放入doc/json/city.json
+            第二步：将数据放入redis的city-list列表中，然后调用map/read读取出来，插入数据库
+
+        http://127.0.0.1:8815/map/citys?province=陕西省    根据省名查询省内的城市
+
+        7 过滤器，拦截器：判断访问的ip是否有访问权限
+            如果需要新加一些ip权限，在FilterConstant中配置filter_ips

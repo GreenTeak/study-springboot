@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.business.user.mapper.AccountMapper">
+    <select id="getAccount" resultType="com.study.business.user.entity.Account">
+        select id,user_id userId ,user_name username,balance from account WHERE USER_ID = #{userId}
+    </select>
+
+    <update id="updateBalance" parameterType="com.study.business.user.entity.Account">
+        update account
+        <trim prefix="set" suffixOverrides=",">
+            <if test="userName!=null">
+                user_name = #{userName},
+            </if>
+            <if test="balance!=null">
+                balance = #{balance},
+            </if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+</mapper>
