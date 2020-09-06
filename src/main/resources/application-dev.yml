@@ -6,7 +6,8 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/study?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
     username: root
     password: 123456
-    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: com.mysql.jdbc.Driver #5.0版本的数据库驱动配置
+#    driver-class-name: com.mysql.cj.jdbc.Driver #8.0高版本得数据库驱动配置
 
   jpa:                    # JPA相关配置
     hibernate:

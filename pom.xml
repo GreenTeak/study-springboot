@@ -54,6 +54,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.46</version> <!--版本问题，5.0以下的老版本需要配置对应低版本的连接池-->
         </dependency>
 
         <!--postgresql 2019-10-31-->
