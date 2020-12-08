@@ -64,20 +64,6 @@ public class WeatherController {
         }
     }
 
-    // 根据天气预报id删除天气预报和明细 2019-12-26
-    @DeleteMapping("/delete")
-    public ResponseMessage delete(@RequestParam(value = "ids", required = true) String idString) {
-        logger.info("ids:{}", idString);
-        String[] idsStr = idString.split(",");
-        List<Long> list = new ArrayList<>();
-        Arrays.asList(idsStr).forEach(idStr -> {
-            Long is = Long.parseLong(idStr);
-            list.add(is);
-        });
-        Long[] ids = list.toArray(new Long[list.size()]);
-        weatherService.deleteWeatherByWeatherId(ids);
-        return ResponseMessage.success();
-    }
 
     // 获取关心的城市的天气预报(关心的城市在配置文件中配置) 2019-12-26
     @GetMapping("/care")
@@ -130,8 +116,8 @@ public class WeatherController {
     }
 
     // 删除30天以前的天气预报和明细 2020-03-16
-    @GetMapping("/delete")
-    public ModelAndView delete() {
+    @GetMapping("/deleteBefore")
+    public ModelAndView deleteBefore() {
         Calendar calender = Calendar.getInstance();
         calender.add(Calendar.DATE, -30);
         Date date = calender.getTime();
@@ -153,6 +139,22 @@ public class WeatherController {
             // 删除天气预报和明细
             weatherService.deleteWeatherByWeatherId(ids);
         }
+        return new ModelAndView("redirect:/weather/weatherList");
+    }
+
+
+    // 根据天气预报id删除天气预报和明细 2019-12-26
+    @GetMapping("/delete/{weatherId}")
+    public ModelAndView delete(@PathVariable(value = "weatherId", required = true) String weatherId) {
+        logger.info("ids:{}", weatherId);
+        String[] idsStr = weatherId.split(",");
+        List<Long> list = new ArrayList<>();
+        Arrays.asList(idsStr).forEach(idStr -> {
+            Long is = Long.parseLong(idStr);
+            list.add(is);
+        });
+        Long[] ids = list.toArray(new Long[list.size()]);
+        weatherService.deleteWeatherByWeatherId(ids);
         return new ModelAndView("redirect:/weather/weatherList");
     }
     //---------------------web页面接口 end-----------------------------------

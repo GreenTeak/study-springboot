@@ -37,7 +37,8 @@
 		http://127.0.0.1:8815/weather/weatherList                               查看数据流中的天气预报页面(get)
 		http://127.0.0.1:8815/weather/weatherDetailList/{weatherId}             查看天气预报明细页面(get)
 		http://127.0.0.1:8815/weather/addWeather                                根据城市名称增加天气预报(post)
-		http://127.0.0.1:8815/weather/delete                                    删除30天以前的天气预报和明细(get)
+		http://127.0.0.1:8815/weather/deleteBefore                              删除30天以前的天气预报和明细(get)
+		http://127.0.0.1:8815/weather/delete                                    删除天气预报和明细(get)
 
 
         4 手机归属地

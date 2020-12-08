@@ -37,6 +37,9 @@
         <td>
             <a th:href="@{'/weather/weatherDetailList/'+${weather.weatherId}}"><input type="submit" value="查看城市天气明细"></a>
         </td>
+        <td>
+            <a th:href="'/weather/delete/'+${weather.weatherId}">删除</a>
+        </td>
     </tr>
     </tbody>
 
