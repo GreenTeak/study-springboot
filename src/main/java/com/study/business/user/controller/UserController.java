@@ -40,7 +40,7 @@ public class UserController {
     public String addUser(@RequestParam(value = "id", required = true) Long id,
                           @RequestParam(value = "age", required = true) Integer age,
                           @RequestParam(value = "userName", required = true) String userName) {
-        user.setId(id);
+        user.setUserId(id);
         user.setAge(age);
         user.setUserName(userName);
         logger.info("增加用户：{}", user);
@@ -65,7 +65,7 @@ public class UserController {
     public String updateUser(@PathVariable(value = "id", required = true) Long id,
                              @RequestParam(value = "age", required = true) Integer age,
                              @RequestParam(value = "userName", required = true) String userName) {
-        user.setId(id);
+        user.setUserId(id);
         user.setAge(age);
         user.setUserName(userName);
         logger.info("修改id为{}的用户为：{}", id, user);
@@ -90,35 +90,47 @@ public class UserController {
         logger.info("调用userList");
         model.addAttribute("userList", userService.getUser());
         model.addAttribute("title", "用户管理");
-//        return new ModelAndView("listUser", "userModel", model);
         return new ModelAndView("user/listUser", "userModel", model);
     }
 
-    @GetMapping("/form")
-    public ModelAndView createForm(Model model) {
+    /**
+     * 跳转到新增页面
+     * @param model
+     * @return
+     */
+    @GetMapping("/addForm")
+    public ModelAndView addForm(Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("title", "添加用户");
-//        return new ModelAndView("addUser", "userModel", model);
         return new ModelAndView("user/addUser", "userModel", model);
+    }
+
+    /**
+     * 跳转到修改页面
+     * @param model
+     * @param id
+     * @return
+     */
+    @GetMapping("/updateForm/{id}")
+    public ModelAndView updateForm(Model model, @PathVariable(value = "id", required = true) Long id) {
+        User user = userService.getUserById(id);
+        if (user == null) {
+            user = new User();
+        }
+        model.addAttribute("user", user);
+        model.addAttribute("title", "修改用户");
+        return new ModelAndView("user/updateUser", "userModel", model);
     }
 
     @PostMapping("/add")
     public ModelAndView addUser(User user) {
-        try {
-            if (user.getId() == null) {
-                throw new GenException("用户id不能为空");
-            }
-            if (user.getUserName() == null) {
-                throw new GenException("用户名称不能为空");
-            }
-            if (user.getPassword() == null) {
-                throw new GenException("用户密码不能为空");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         userService.addUser(user);
+        return new ModelAndView("redirect:/user/userList");
+    }
+
+    @PostMapping("/updateUser")
+    public ModelAndView updateUser(User user) {
+        userService.updateUser(user);
         return new ModelAndView("redirect:/user/userList");
     }
 

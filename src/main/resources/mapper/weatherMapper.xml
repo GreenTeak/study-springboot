@@ -18,6 +18,7 @@
         <result property="ganmao" column="ganmao"/>
         <result property="wendu" column="wendu"/>
         <collection property="weatherDetails" ofType="com.study.business.weather.entity.WeatherDetail">
+            <id property="weatherDetailId" column="weather_detail_id"/>
             <result property="date" column="date"/>
             <result property="fengli" column="fengli"/>
             <result property="fengxiang" column="fengxiang"/>
@@ -25,6 +26,8 @@
             <result property="low" column="low"/>
             <result property="type" column="type"/>
             <result property="weatherId" column="weather_id"/>
+            <result property="timestamp" column="timestamp"/>
+            <result property="week" column="week"/>
         </collection>
     </resultMap>
 
@@ -43,13 +46,16 @@
         a.create_date,
         a.ganmao,
         a.wendu,
+        d.weather_detail_id,
         d.type,
         d.low,
         d.high,
         d.date ,
         d.weather_detail_id,
         d.fengxiang,
-        d.fengli
+        d.fengli,
+        d.timestamp,
+        d.week
         FROM
         weather a
         LEFT JOIN weather_detail d ON a.weather_id = d.weather_id

@@ -9,7 +9,7 @@
 <div th:replace="~{user/fragments/userHeader :: userHeader}">...</div>
 <div th:text="${userModel.title}"></div>
 <div>
-    <a href="/user/form">增加用户</a>
+    <a href="/user/addForm">增加用户</a>
 </div>
 <table>
     <thead>
@@ -17,6 +17,12 @@
         <td>ID</td>
         <td>姓名</td>
         <td>年龄</td>
+
+        <td>性别</td>
+        <td>居住住址</td>
+        <td>生日</td>
+        <td>电话</td>
+        <td>身份证</td>
         <td>操作</td>
     </tr>
     </thead>
@@ -26,11 +32,18 @@
         <!--<td colspan="3">没有用户信息!</td>-->
         <!--</tr>-->
     <tr th:each="user : ${userModel.userList}">
-        <td th:text="${user.id}"></td>
+        <td th:text="${user.userId}"></td>
         <td th:text="${user.userName}"></td>
         <td th:text="${user.age}"></td>
+
+        <td th:text="${user.sex}"></td>
+        <td th:text="${user.address}"></td>
+        <td th:text="${user.birthday}"></td>
+        <td th:text="${user.phone}"></td>
+        <td th:text="${user.idCard}"></td>
         <td>
-            <a th:href="@{'/user/deleteUser/'+${user.id}}"><input type="submit" value="删除用户"></a>
+            <a th:href="@{'/user/updateForm/'+${user.userId}}"><input type="submit" value="查看用户"></a>
+            <a th:href="@{'/user/deleteUser/'+${user.userId}}"><input type="submit" value="删除用户"></a>
         </td>
     </tr>
     </tbody>

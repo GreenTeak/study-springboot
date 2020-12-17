@@ -19,4 +19,10 @@ public interface UserService {
 
     //登陆 2020-01-02
     Boolean login(User user);
+
+    // 根据用户id查询用户信息
+    User getUserById(Long userId);
+
+    // 校验需要入库的用户信息
+    String checkUser(User user,String operate);
 }

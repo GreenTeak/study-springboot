@@ -7,7 +7,9 @@
 </head>
 <body>
 <div th:replace="~{user/fragments/userHeader :: userHeader}">...</div>
-<form action="/user/add" method="post" th:object="${userModel.user}">
+<form action="/user/updateUser" method="post" th:object="${userModel.user}">
+    <!--ID: 隐藏ID-->
+    <input type="text" name="userId" th:value="*{userId}" th:hidden="true">
     名字:
     <input type="text" name="userName" th:value="*{userName}">
     年龄:

@@ -22,4 +22,7 @@ public interface UserMapper {
 
     //登陆 2020-01-02
     User login(User user);
+
+    //根据用户id查询用户信息
+    User getUserById(Long userId);
 }

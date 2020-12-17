@@ -1,12 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.study.business.user.mapper.UserMapper">
-    <select id="getUser" resultType="com.study.business.user.entity.User">
-        select id,user_name userName,age,password from user
+
+    <resultMap id="userResultMap" type="com.study.business.user.entity.User">
+        <id property="userId" column="user_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="age" column="age"/>
+        <result property="password" column="password"/>
+        <result property="sex" column="sex"/>
+        <result property="address" column="address"/>
+        <result property="birthday" column="birthday"/>
+        <result property="phone" column="phone"/>
+        <result property="idCard" column="id_card"/>
+    </resultMap>
+
+    <!--查询用户列表 -->
+    <select id="getUser" resultMap="userResultMap">
+        select
+        user_id,
+        user_name ,
+        age,
+        password,
+        sex,
+        address,
+        birthday,
+        phone,
+        id_card
+        from user
     </select>
 
     <delete id="deleteUser" parameterType="Integer">
-        delete from user where id = #{id}
+        delete from user where user_id = #{id}
     </delete>
 
     <update id="updateUser" parameterType="com.study.business.user.entity.User">
@@ -21,17 +45,70 @@
             <if test="password!=null">
                 password = #{password},
             </if>
+
+            <if test="sex!=null">
+                sex = #{sex},
+            </if>
+            <if test="address!=null">
+                address = #{address},
+            </if>
+            <if test="birthday!=null">
+                birthday = #{birthday},
+            </if>
+            <if test="phone!=null">
+                phone = #{phone},
+            </if>
+            <if test="idCard!=null">
+                id_card = #{idCard},
+            </if>
         </trim>
-        where id = #{id}
+        where user_id = #{userId}
     </update>
 
     <insert id="addUser" parameterType="com.study.business.user.entity.User">
-        insert into user (id,user_name,age,password) values (#{id},#{userName},#{age},#{password})
+        insert into user (
+        user_name,
+        age,
+        password,
+        sex,
+        address,
+        birthday,
+        phone,
+        id_card
+        )
+        values (
+        #{userName},
+        #{age},
+        #{password},
+        #{sex},
+        #{address},
+        #{birthday},
+        #{phone},
+        #{idCard}
+        )
     </insert>
 
+    <!--根据user_id查询用户 -->
+    <select id="getUserById" resultMap="userResultMap">
+        select
+            user_id,
+            user_name ,
+            age,
+            password,
+            sex,
+            address,
+            birthday,
+            phone,
+            id_card
+        from user
+        where
+        user_id = #{userId}
+    </select>
+
     <!--登陆 2020-01-02-->
-    <select id="login" resultType="com.study.business.user.entity.User" parameterType="com.study.business.user.entity.User">
-        select id,user_name userName,age,password from user
+    <select id="login" resultType="com.study.business.user.entity.User"
+            parameterType="com.study.business.user.entity.User">
+        select user_id,user_name userName,age,password from user
         where user_name = #{userName} and password = #{password}
     </select>
 </mapper>
