@@ -57,3 +57,17 @@
 
         7 过滤器，拦截器：判断访问的ip是否有访问权限
             如果需要新加一些ip权限，在FilterConstant中配置filter_ips
+
+
+三 金融接口
+    1 还款计划生成
+    http://127.0.0.1:8815/scheduleDetails   （POST）
+    {
+    	"total": 590000,
+    	"yearRate":0.049,
+    	"sumTerm":360,
+    	"startDate":"2018-10-25",
+    	"type":"CAITAL"
+    }
+
+    本金，年利率，总期数（n个月），起息日，还款计划方式（CAITAL-等额本金，INTEREST-等额本息）
