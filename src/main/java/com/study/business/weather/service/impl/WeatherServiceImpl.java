@@ -76,7 +76,7 @@ public class WeatherServiceImpl implements WeatherService {
         String status = jsonObject.getString("status");
         if ("1000".equals(status)) {
             JSONObject data = jsonObject.getJSONObject("data");
-            String city = data.getString("city");
+            String cityName = data.getString("city");
             String ganmao = data.getString("ganmao");
             Integer wendu = data.getInteger("wendu");
 
@@ -85,7 +85,7 @@ public class WeatherServiceImpl implements WeatherService {
 
             // 获取地区信息
             WeatherModel weatherModel = new WeatherModel();
-            weatherModel.setCity(city);
+            weatherModel.setCity(cityName);
             weatherModel.setGanmao(ganmao);
             weatherModel.setWendu(wendu);
             SimpleDateFormat format = new SimpleDateFormat(DateUtil.DATE_FORMAT_TYPE_3);
@@ -101,14 +101,14 @@ public class WeatherServiceImpl implements WeatherService {
                 logger.info("timestamp:{}", timestamp);
                 calendar.add(Calendar.DATE, -i);
                 JSONObject weatherJson = (JSONObject) forecast.get(i);
-                WeatherDetail weatherDetail = buildWeatherDetail(weatherJson, timestamp);
+                WeatherDetail weatherDetail = buildWeatherDetail(weatherJson, timestamp, cityName);
                 weatherDetails.add(weatherDetail);
             }
 
             // 获取昨天的明细数据
             calendar.add(Calendar.DATE, -1);
             Date date = calendar.getTime();
-            WeatherDetail weatherDetail = buildWeatherDetail(yesterday, date);
+            WeatherDetail weatherDetail = buildWeatherDetail(yesterday, date, cityName);
             weatherDetails.add(weatherDetail);
             weatherModel.setWeatherDetails(weatherDetails);
 
@@ -133,7 +133,7 @@ public class WeatherServiceImpl implements WeatherService {
      * @param jsonObject
      * @return
      */
-    public WeatherDetail buildWeatherDetail(JSONObject jsonObject, Date timestamp) {
+    public WeatherDetail buildWeatherDetail(JSONObject jsonObject, Date timestamp, String cityName) {
         String fengli = jsonObject.getString("fengli");
         String fengxiang = jsonObject.getString("fengxiang");
         String date = jsonObject.getString("date");
@@ -148,6 +148,7 @@ public class WeatherServiceImpl implements WeatherService {
             fengxiang = jsonObject.getString("fx");
         }
         WeatherDetail weatherDetail = new WeatherDetail();
+        weatherDetail.setCityName(cityName);
         weatherDetail.setTimestamp(timestamp);
         weatherDetail.setDate(date);
         weatherDetail.setFengli(fengli);
@@ -164,8 +165,8 @@ public class WeatherServiceImpl implements WeatherService {
 
     // 从百度获取一个城市的天气预报
     @Override
-    public void getWeatherFromBaidu(String city) {
-        String apiurl = ComConstant.baudi_Weather_Api + city;
+    public void getWeatherFromBaidu(String cityName) {
+        String apiurl = ComConstant.baudi_Weather_Api + cityName;
         logger.info(apiurl);
         String result = null;
         try {
@@ -189,7 +190,7 @@ public class WeatherServiceImpl implements WeatherService {
 
     // 查询30天以前的所有weather
     @Override
-    public List<Weather> getWeather(Date date){
+    public List<Weather> getWeather(Date date) {
         return weatherMapper.getWeather(date);
     }
 }

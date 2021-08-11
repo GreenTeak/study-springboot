@@ -32,6 +32,8 @@ public class WeatherDetail {
     private String week;
     // 时间戳
     private Date timestamp;
+    // 城市名称
+    private String cityName;
 
     public Long getWeatherDetailId() {
         return weatherDetailId;
@@ -111,5 +113,13 @@ public class WeatherDetail {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
     }
 }

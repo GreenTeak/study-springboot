@@ -25,7 +25,7 @@ public interface WeatherService {
     List<WeatherDetail> getWeatherDeatils(Long weatheId);
 
     // 从百度获取一个城市的天气预报
-    void getWeatherFromBaidu(String city);
+    void getWeatherFromBaidu(String cityName);
 
     // 根据id删除Weather和明细
     void deleteWeatherByWeatherId(Long[] ids);
