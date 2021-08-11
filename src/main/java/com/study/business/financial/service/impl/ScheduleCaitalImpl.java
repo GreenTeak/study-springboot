@@ -1,12 +1,14 @@
 package com.study.business.financial.service.impl;
 
 import com.study.business.financial.ScheduleEnum;
+import com.study.business.financial.mapper.ScheduleDetailMapper;
 import com.study.business.financial.model.ScheduleDetail;
 import com.study.business.financial.model.ScheduleInfo;
 import com.study.business.financial.service.IScheduleService;
 import com.study.common.util.BigDecamalUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,6 +30,10 @@ import static com.study.common.util.BigDecamalUtil.DECIMAL_SCALE;
 public class ScheduleCaitalImpl implements IScheduleService {
 
     private static final Logger logger = LoggerFactory.getLogger(ScheduleInterestImpl.class);
+
+    // 还款计划入库 2021-08-12
+    @Autowired
+    private ScheduleDetailMapper scheduleDetailMapper;
 
     @Override
     public List<ScheduleDetail> createScheduleDetails(ScheduleInfo scheduleInfo) {
@@ -66,13 +72,16 @@ public class ScheduleCaitalImpl implements IScheduleService {
 
                 // 还款明细
                 ScheduleDetail scheduleDetail = new ScheduleDetail();
-                scheduleDetail.setPeriod(i);// 期次
-                scheduleDetail.setDate(calendar.getTime()); // 时间
-                scheduleDetail.setBalance(remainTotal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 剩余本金
-                scheduleDetail.setRePay(monthPayTotal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还本息
-                scheduleDetail.setRePri(monthPrincipal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还本金
-                scheduleDetail.setReInt(interest.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还利息
+                scheduleDetail.setBatchNo(i);// 期次
+                scheduleDetail.setRepayDate(calendar.getTime()); // 时间
+                scheduleDetail.setSurPriAmt(remainTotal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 剩余本金
+                scheduleDetail.setRepayPayAmt(monthPayTotal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还本息
+                scheduleDetail.setRepayPriAmt(monthPrincipal.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还本金
+                scheduleDetail.setRepayIntAmt(interest.setScale(2, BigDecimal.ROUND_HALF_UP)); // 应还利息
+                scheduleDetail.setCreateDate(new Date());
                 scheduleDetails.add(scheduleDetail);
+
+                scheduleDetailMapper.addScheduleDetail(scheduleDetail);
 
             }
         } catch (Exception e) {

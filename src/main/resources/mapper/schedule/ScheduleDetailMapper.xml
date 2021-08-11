@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.study.business.financial.mapper.ScheduleDetailMapper">
+
+    <resultMap id="weatherResultMap" type="com.study.business.financial.model.ScheduleDetail">
+        <id property="scheduleDetailId" column="weather_detail_id"/>
+        <result property="scheduleInfoId" column="schedule_info_id"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="repayPayAmt" column="repay_pay_amt"/>
+        <result property="repayIntAmt" column="repay_int_amt"/>
+        <result property="surPriAmt" column="sur_pri_amt"/>
+        <result property="surIntAmt" column="sur_int_amt"/>
+        <result property="repayDate" column="repay_date"/>
+    </resultMap>
+
+    <insert id="addScheduleDetail" parameterType="com.study.business.financial.model.ScheduleDetail">
+        insert into schedule_detail
+        (
+        <if test="scheduleInfoId != null and scheduleInfoId !=''">
+            schedule_info_id,
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            batch_no,
+        </if>
+        <if test="repayPayAmt != null and repayPayAmt !=''">
+            repay_pay_amt,
+        </if>
+        <if test="repayPriAmt != null and repayPriAmt !=''">
+            repay_pri_amt,
+        </if>
+        <if test="repayIntAmt != null and repayIntAmt !=''">
+            repay_int_amt,
+        </if>
+        <if test="surPriAmt != null and surPriAmt !=''">
+            sur_pri_amt,
+        </if>
+        <if test="surIntAmt != null and surIntAmt !=''">
+            sur_int_amt,
+        </if>
+        <if test="repayDate != null">
+            repay_date,
+        </if>
+        create_date)
+        values
+        (
+        <if test="scheduleInfoId != null and scheduleInfoId !=''">
+            #{scheduleInfoId},
+        </if>
+        <if test="batchNo != null and batchNo !=''">
+            #{batchNo},
+        </if>
+        <if test="repayPayAmt != null and repayPayAmt !=''">
+            #{repayPayAmt},
+        </if>
+        <if test="repayPriAmt != null and repayPriAmt !=''">
+            #{repayPriAmt},
+        </if>
+        <if test="repayIntAmt != null and repayIntAmt !=''">
+            #{repayIntAmt},
+        </if>
+        <if test="surPriAmt != null and surPriAmt !=''">
+            #{surPriAmt},
+        </if>
+        <if test="surIntAmt != null and surIntAmt !=''">
+            #{surIntAmt},
+        </if>
+        <if test="repayDate != null">
+            #{repayDate},
+        </if>
+        #{createDate})
+    </insert>
+</mapper>

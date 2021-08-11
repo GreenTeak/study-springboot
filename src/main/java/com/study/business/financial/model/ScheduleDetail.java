@@ -7,64 +7,105 @@ import java.util.Date;
  * 还款计划明细
  */
 public class ScheduleDetail {
-    //期次
-    private int period;
+
+    // 明细主键 2021-08-12
+    private Integer scheduleDetailId;
+    // 计划主键（父主键） 2021-08-12
+    private Integer scheduleInfoId;
+    //期次 2021-08-12
+    private int batchNo;
     // 回款本息（元）
-    private BigDecimal rePay;
+    private BigDecimal repayPayAmt;
     // 回款利息（元）
-    private BigDecimal reInt;
+    private BigDecimal repayIntAmt;
     // 回款本金（元）
-    private BigDecimal rePri;
+    private BigDecimal repayPriAmt;
     // 剩余本金（元）
-    private BigDecimal balance;
+    private BigDecimal surPriAmt;
+    // 剩余利息（元）
+    private BigDecimal surIntAmt;
     // 回款日期
-    private Date date;
+    private Date repayDate;
+    // 创建时间 2021-08-12
+    private Date createDate;
 
-    public int getPeriod() {
-        return period;
+    public int getBatchNo() {
+        return batchNo;
     }
 
-    public void setPeriod(int period) {
-        this.period = period;
+    public void setBatchNo(int batchNo) {
+        this.batchNo = batchNo;
     }
 
-    public BigDecimal getRePay() {
-        return rePay;
+    public BigDecimal getRepayPayAmt() {
+        return repayPayAmt;
     }
 
-    public void setRePay(BigDecimal rePay) {
-        this.rePay = rePay;
+    public void setRepayPayAmt(BigDecimal repayPayAmt) {
+        this.repayPayAmt = repayPayAmt;
     }
 
-    public BigDecimal getReInt() {
-        return reInt;
+    public BigDecimal getRepayIntAmt() {
+        return repayIntAmt;
     }
 
-    public void setReInt(BigDecimal reInt) {
-        this.reInt = reInt;
+    public void setRepayIntAmt(BigDecimal repayIntAmt) {
+        this.repayIntAmt = repayIntAmt;
     }
 
-    public BigDecimal getRePri() {
-        return rePri;
+    public BigDecimal getRepayPriAmt() {
+        return repayPriAmt;
     }
 
-    public void setRePri(BigDecimal rePri) {
-        this.rePri = rePri;
+    public void setRepayPriAmt(BigDecimal repayPriAmt) {
+        this.repayPriAmt = repayPriAmt;
     }
 
-    public BigDecimal getBalance() {
-        return balance;
+    public BigDecimal getSurPriAmt() {
+        return surPriAmt;
     }
 
-    public void setBalance(BigDecimal balance) {
-        this.balance = balance;
+    public void setSurPriAmt(BigDecimal surPriAmt) {
+        this.surPriAmt = surPriAmt;
     }
 
-    public Date getDate() {
-        return date;
+    public BigDecimal getSurIntAmt() {
+        return surIntAmt;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setSurIntAmt(BigDecimal surIntAmt) {
+        this.surIntAmt = surIntAmt;
+    }
+
+    public Date getRepayDate() {
+        return repayDate;
+    }
+
+    public void setRepayDate(Date repayDate) {
+        this.repayDate = repayDate;
+    }
+
+    public Integer getScheduleDetailId() {
+        return scheduleDetailId;
+    }
+
+    public void setScheduleDetailId(Integer scheduleDetailId) {
+        this.scheduleDetailId = scheduleDetailId;
+    }
+
+    public Integer getScheduleInfoId() {
+        return scheduleInfoId;
+    }
+
+    public void setScheduleInfoId(Integer scheduleInfoId) {
+        this.scheduleInfoId = scheduleInfoId;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }
