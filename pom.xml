@@ -27,6 +27,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!--TEST 2021-12-01-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+
         <!--kafka 2019-09-29-->
         <dependency>
             <groupId>org.springframework.kafka</groupId>
@@ -76,10 +82,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--<dependency>-->
-        <!--<groupId>org.aspectj</groupId>-->
-        <!--<artifactId>aspectjweaver</artifactId>-->
-        <!--</dependency>-->
         <!-- 引入 spring aop 依赖 2019-11-01-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -113,25 +115,12 @@
             <version>2.1.8.RELEASE</version>
         </dependency>
 
-        <!--es 2019-12-02 03-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-elasticsearch</artifactId>-->
-            <!--<version>3.1.10.RELEASE</version>-->
-        <!--</dependency>-->
-
         <!--es 2019-12-02 01-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
             <artifactId>transport</artifactId>
             <version>${elasticsearch.version}</version>
         </dependency>
-
-        <!--安全管理 2020-01-02-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
 
         <!--2020-06-08 FTP服务器-->
         <dependency>
